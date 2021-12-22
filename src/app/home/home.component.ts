@@ -111,7 +111,7 @@ export class HomeComponent implements OnInit {
           });
         }
         if(this.type === "year"){
-          this.dbService.searchKey(limit, offset, str).subscribe(data => {
+          this.dbService.searchByYear(limit, offset, str).subscribe(data => {
             this.movieData = data.data.results;
             this.total = data.data.total;
             this.totalPagesToShow =[];

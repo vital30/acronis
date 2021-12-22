@@ -37,7 +37,7 @@ export class DatabaseBarService {
   }
 
   searchByYear(limit:any, offset:any, year:any): Observable<any> {
-    const url = DatabaseBarService.GET_URL_NEXT_PAGE+ "limit="+ limit + "&offset=" + offset + "&&startYear==" + year;
+    const url = DatabaseBarService.GET_URL_NEXT_PAGE+ "limit="+ limit + "&offset=" + offset + "&startYear=" + year;
     return this.http.get(url);
   }
 

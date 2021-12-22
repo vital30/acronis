@@ -121,7 +121,7 @@ export class HomeComponent implements OnInit {
             this.pagesToShow();
           },
           err => {
-            throw err;
+            alert(err.error.status);
           });
         }
 

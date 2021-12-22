@@ -2,8 +2,8 @@
     <header class="header"><h1 class="logo">Marvel App</h1></header>
     <div class="filters">
         <label>Filter By</label>
-            <input type="search" #search id="serchkey" (keyup)=searchKey(search.value) placeholder="Comics Name">
-            <input class="number-input" #year type="number" (keyup)=searchByYear(year.value) placeholder="Start Year">
+            <input type="search" #search id="serchkey" (keyup)="onkeyUp(search.value,'search')" placeholder="Comics Name">
+            <input class="number-input" #year type="number" (keyup)="onkeyUp(year.value,'year')" placeholder="Start Year">
     </div>
 
     <div id="pagination" *ngIf="total != 0">

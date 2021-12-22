@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DatabaseBarService} from '../_services/database-bar.service';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
@@ -13,18 +15,32 @@ export class HomeComponent implements OnInit {
   currentPage:any
   totalPagesToShow:any
   total:any
-  constructor(private dbService: DatabaseBarService) { }
+  type:any
+  private subject: Subject<string> = new Subject();
+
+  constructor(private dbService: DatabaseBarService) { 
+    this.subject.pipe(
+      debounceTime(2000))
+      .subscribe(model => {
+        this.searchKey(model);
+      });
+  }
 
   ngOnInit(): void {
     this.getMovies();
   }
 
+  onkeyUp(str:any, type:any){
+    this.type = type;
+    this.subject.next(str);
+  }
+
   getMovies() {
     this.dbService.getMovies().subscribe(data => {
       this.movieData = data.data.results;
+      this.total = data.data.total;
       this.totalPages = Math.round(data.data.total/data.data.limit);
       this.totalPagesArr = Array.from(Array(this.totalPages).keys());
-      //this.totalPagesToShow =[...this.totalPagesToShow]
       this.currentPage = 1;
       this.pagesToShow();
 
@@ -77,49 +93,46 @@ export class HomeComponent implements OnInit {
     });
   }
 
-
   searchKey(str:any){
-    setTimeout(() => { 
-      let limit=20;
-      let offset=0;    
-        this.dbService.searchKey(limit, offset, str).subscribe(data => {
-          this.movieData = data.data.results;
-          this.total = data.data.total;
-          this.totalPagesToShow =[];
-          this.totalPages = Math.round(data.data.total/data.data.limit);
-          this.totalPagesArr = Array.from(Array(this.totalPages).keys());
-        this.currentPage = 1;
-        this.pagesToShow();
-        },
-        err => {
-          throw err;
-        });
-  
-
-     }, 2000);
-  }
-
-  searchByYear(str:any){
-    setTimeout(() => { 
-      let limit=20;
-      let offset=0;
-        this.dbService.searchKey(limit, offset, str).subscribe(data => {
-          this.movieData = data.data.results;
-          this.totalPagesToShow =[];
-          this.totalPages = Math.round(data.data.total/data.data.limit);
-          this.totalPagesArr = Array.from(Array(this.totalPages).keys());
+        let limit=20;
+        let offset=0;   
+        if(this.type === "search"){
+          this.dbService.searchKey(limit, offset, str).subscribe(data => {
+            this.movieData = data.data.results;
+            this.total = data.data.total;
+            this.totalPagesToShow =[];
+            this.totalPages = Math.round(data.data.total/data.data.limit);
+            this.totalPagesArr = Array.from(Array(this.totalPages).keys());
           this.currentPage = 1;
           this.pagesToShow();
-        },
-        err => {
-          throw err;
-        });
-  
+          },
+          err => {
+            throw err;
+          });
+        }
+        if(this.type === "year"){
+          this.dbService.searchKey(limit, offset, str).subscribe(data => {
+            this.movieData = data.data.results;
+            this.total = data.data.total;
+            this.totalPagesToShow =[];
+            this.totalPages = Math.round(data.data.total/data.data.limit);
+            this.totalPagesArr = Array.from(Array(this.totalPages).keys());
+            this.currentPage = 1;
+            this.pagesToShow();
+          },
+          err => {
+            throw err;
+          });
+        }
 
-     }, 2000);
-  }
+      }
+
 
   pagesToShow(){
+    if(this.total < 20){
+      this.totalPagesToShow =[this.currentPage];
+      return;
+    }
     if(this.currentPage === 1){
       this.totalPagesToShow =[this.currentPage,this.currentPage+1, this.currentPage+2, this.totalPages]
     }

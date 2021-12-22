@@ -1,0 +1,36 @@
+<div id="app">
+    <header class="header"><h1 class="logo">Marvel App</h1></header>
+    <div class="filters">
+        <label>Filter By</label>
+            <input type="search" #search id="serchkey" (keyup)=searchKey(search.value) placeholder="Comics Name">
+            <input class="number-input" #year type="number" (keyup)=searchByYear(year.value) placeholder="Start Year">
+    </div>
+
+    <div id="pagination" *ngIf="total != 0">
+        <span class="previous" [ngClass]="{'disable': currentPage === 1}" (click)=getPrevPage()><</span>
+        <span class="page page{{page}}" *ngFor="let page of totalPagesToShow; index as i" [ngClass]="{'selected': currentPage === page, 'lastpage': page === totalPages}">
+            <a (click)=getPage(page)>{{page}}</a>          
+        </span>
+        <!-- <span class="last-page">
+            <a (click)=getPage(1)>{{totalPages}}</a>          
+        </span> -->
+        <span class="next" [ngClass]="{'disable': currentPage === totalPages}" (click)=getNextPage()>></span>
+    </div>
+
+    <div id="container">
+        <ul id="ulCont">
+          <li *ngFor="let movie of movieData; index as i">
+              <div class="content">
+                <img src="{{movie.thumbnail.path}}/portrait_small.jpg" />
+              </div>
+                <div class="titleContent">
+                    <span class="title">{{movie.title}}</span>
+                    <p class="description">{{movie.description}}</p>
+                </div>
+            
+          </li>
+        </ul>
+    </div>
+
+    <h2 *ngIf="total === 0">No Movies Available</h2>
+</div>

@@ -11,9 +11,6 @@
         <span class="page page{{page}}" *ngFor="let page of totalPagesToShow; index as i" [ngClass]="{'selected': currentPage === page, 'lastpage': page === totalPages}">
             <a (click)=getPage(page)>{{page}}</a>          
         </span>
-        <!-- <span class="last-page">
-            <a (click)=getPage(1)>{{totalPages}}</a>          
-        </span> -->
         <span class="next" [ngClass]="{'disable': currentPage === totalPages}" (click)=getNextPage()>></span>
     </div>
 

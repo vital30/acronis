@@ -40,7 +40,7 @@ export class HomeComponent implements OnInit {
       this.movieData = data.data.results;
       this.total = data.data.total;
       this.totalPages = Math.round(data.data.total/data.data.limit);
-      this.totalPagesArr = Array.from(Array(this.totalPages).keys());
+      this.totalPagesArr = Array.from(Array(this.totalPages+1).keys());
       this.currentPage = 1;
       this.pagesToShow();
 
@@ -102,7 +102,7 @@ export class HomeComponent implements OnInit {
             this.total = data.data.total;
             this.totalPagesToShow =[];
             this.totalPages = Math.round(data.data.total/data.data.limit);
-            this.totalPagesArr = Array.from(Array(this.totalPages).keys());
+            this.totalPagesArr = Array.from(Array(this.totalPages+1).keys());
           this.currentPage = 1;
           this.pagesToShow();
           },
@@ -116,7 +116,7 @@ export class HomeComponent implements OnInit {
             this.total = data.data.total;
             this.totalPagesToShow =[];
             this.totalPages = Math.round(data.data.total/data.data.limit);
-            this.totalPagesArr = Array.from(Array(this.totalPages).keys());
+            this.totalPagesArr = Array.from(Array(this.totalPages+1).keys());
             this.currentPage = 1;
             this.pagesToShow();
           },
@@ -129,31 +129,31 @@ export class HomeComponent implements OnInit {
 
 
   pagesToShow(){
-    if(this.total < 20){
-      this.totalPagesToShow =[this.currentPage];
-      return;
-    }
-    if(this.currentPage === 1){
-      this.totalPagesToShow =[this.currentPage,this.currentPage+1, this.currentPage+2, this.totalPages]
-    }
-    if(this.currentPage === 2){
-      this.totalPagesToShow =[1, this.currentPage,this.currentPage+1, this.currentPage+2, this.totalPages]
-    }
-    if(this.currentPage === 3){
-      this.totalPagesToShow =[1,this.currentPage-1, this.currentPage,this.currentPage+1, this.currentPage+2, this.totalPages]
-    }
-    if(this.currentPage >= 4){
-      this.totalPagesToShow =[1,this.currentPage-2, this.currentPage-1, this.currentPage,this.currentPage+1, this.currentPage+2, this.totalPages]
-    }
+    if(this.totalPages >= 6){
+      if(this.currentPage === 1){
+        this.totalPagesToShow =[this.currentPage,this.currentPage+1, this.currentPage+2, this.totalPages]
+      }
+      if(this.currentPage === 2){
+        this.totalPagesToShow =[1, this.currentPage,this.currentPage+1, this.currentPage+2, this.totalPages]
+      }
+      if(this.currentPage === 3){
+        this.totalPagesToShow =[1,this.currentPage-1, this.currentPage,this.currentPage+1, this.currentPage+2, this.totalPages]
+      }
+      if(this.currentPage >= 4){
+        this.totalPagesToShow =[1,this.currentPage-2, this.currentPage-1, this.currentPage,this.currentPage+1, this.currentPage+2, this.totalPages]
+      }
 
-    if(this.currentPage === this.totalPages){
-      this.totalPagesToShow =[1,this.currentPage-2, this.currentPage-1, this.currentPage]
-    }
-    if(this.currentPage === this.totalPages-1){
-      this.totalPagesToShow =[1,this.currentPage-2, this.currentPage-1, this.currentPage,this.currentPage+1]
-    }
-    if(this.currentPage === this.totalPages-2){
-      this.totalPagesToShow =[1,this.currentPage-2, this.currentPage-1, this.currentPage,this.currentPage+1, this.currentPage+2]
+      if(this.currentPage === this.totalPages){
+        this.totalPagesToShow =[1,this.currentPage-2, this.currentPage-1, this.currentPage]
+      }
+      if(this.currentPage === this.totalPages-1){
+        this.totalPagesToShow =[1,this.currentPage-2, this.currentPage-1, this.currentPage,this.currentPage+1]
+      }
+      if(this.currentPage === this.totalPages-2){
+        this.totalPagesToShow =[1,this.currentPage-2, this.currentPage-1, this.currentPage,this.currentPage+1, this.currentPage+2]
+      }
+    }else{
+      this.totalPagesToShow = this.totalPagesArr;
     }
 
   }

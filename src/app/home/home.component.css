@@ -131,6 +131,7 @@ input {
     color: #006fd5;
     border: 1px solid;
     display: inline-block;
+    cursor: not-allowed;
 }
 
 #pagination > span.last-page{
@@ -146,13 +147,15 @@ input {
    margin-right: 25px;
 }
 
+
 #pagination .lastpage {
     margin-left: 20px;
  }
 
-.disable {
+.disable, #pagination .page0 {
     display: none !important;
   }
+  
 
   a {
     display: block;

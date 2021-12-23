@@ -16,6 +16,8 @@ export class HomeComponent implements OnInit {
   totalPagesToShow:any
   total:any
   type:any
+  yearInput:any
+  searchInput:any
   private subject: Subject<string> = new Subject();
 
   constructor(private dbService: DatabaseBarService) { 
@@ -97,7 +99,8 @@ export class HomeComponent implements OnInit {
         let limit=20;
         let offset=0;   
         if(this.type === "search"){
-          this.dbService.searchKey(limit, offset, str).subscribe(data => {
+          this.searchInput = str;
+          this.dbService.searchKey(limit, offset, this.searchInput, this.yearInput).subscribe(data => {
             this.movieData = data.data.results;
             this.total = data.data.total;
             this.totalPagesToShow =[];
@@ -111,7 +114,8 @@ export class HomeComponent implements OnInit {
           });
         }
         if(this.type === "year"){
-          this.dbService.searchByYear(limit, offset, str).subscribe(data => {
+          this.yearInput = str;
+          this.dbService.searchByYear(limit, offset, this.yearInput, this.searchInput).subscribe(data => {
             this.movieData = data.data.results;
             this.total = data.data.total;
             this.totalPagesToShow =[];
